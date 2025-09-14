@@ -2,9 +2,10 @@ from rest_framework import serializers
 from .models import About, ContactMessage, Project, ProjectImage, ProjectSubDescription, ProjectTag, SocialLink, Education, Review
 
 class AboutSerializer(serializers.ModelSerializer):
+    profile_image = serializers.ImageField(use_url=True)
     class Meta:
         model = About
-        fields = ['id', 'profile_image']
+        fields = "__all__"
 
 class ContactMessageSerializer(serializers.ModelSerializer):
     class Meta:
