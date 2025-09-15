@@ -13,31 +13,33 @@ class ContactMessageSerializer(serializers.ModelSerializer):
         fields = "__all__"
         
 class ProjectImageSerializer(serializers.ModelSerializer):
+    image_url = serializers.ImageField(source="image", use_url=True)
     class Meta:
         model = ProjectImage
-        fields = ["image"]
+        fields = ["id", "image_url"]
 
 
 class ProjectSubDescriptionSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProjectSubDescription
-        fields = ["text"]
+        fields = ["id", "text"]
 
 
 class ProjectTagSerializer(serializers.ModelSerializer):
+    path = serializers.ImageField(source="icon", use_url=True)
     class Meta:
         model = ProjectTag
-        fields = ["name", "icon"]
+        fields = ["id", "name", "path"]
 
 
 class ProjectSerializer(serializers.ModelSerializer):
     images = ProjectImageSerializer(many=True, read_only=True)
-    sub_descriptions = ProjectSubDescriptionSerializer(many=True, read_only=True)
+    subDescriptions = ProjectSubDescriptionSerializer(many=True, read_only=True, source="sub_descriptions")
     tags = ProjectTagSerializer(many=True, read_only=True)
 
     class Meta:
         model = Project
-        fields = ["id", "title", "description", "href", "images", "sub_descriptions", "tags"]
+        fields = ["id", "title", "description", "href", "images", "subDescriptions", "tags"]
 
 
 class SocialLinkSerializer(serializers.ModelSerializer):
